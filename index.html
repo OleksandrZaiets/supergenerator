@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Анализ Excel и создание Word</title>
+  <script src="script.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <style>
+    #resultText {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Анализ Excel и создание Word</h1>
+  <input type="file" id="fileInput">
+  <div id="resultText"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fileInput = document.getElementById('fileInput');
+      const resultText = document.getElementById('resultText');
+
+      fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+
+        analyzeExcelFile(file)
+          .then((result) => {
+            const downloadLink = createWordDocument(result);
+            resultText.innerHTML = '';
+            resultText.appendChild(downloadLink);
+          })
+          .catch((error) => {
+            console.error('Ошибка при анализе файла Excel:', error);
+            resultText.textContent = 'Произошла ошибка при анализе файла Excel.';
+          });
+      });
+    });
+  </script>
+</body>
+</html>
